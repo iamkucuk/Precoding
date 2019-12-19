@@ -7,7 +7,7 @@ from DataGenerator import DataGenerator
 
 
 class ComputeDTilda(Layer):
-    def __init__(self, d, h, etx = 1, sigma=tf.ones(2, 2)):
+    def __init__(self, d, h, etx=1, sigma=tf.ones(2, 2)):
         super(ComputeDTilda, self).__init__()
         self.trainable = False
         self.h_tensor = h
@@ -54,11 +54,11 @@ class ComputeDTilda(Layer):
 
         a_2 = linalg.adjoint(linalg.matmul(h_tensor[1:2], b_tensor[:, 1:2])) * \
               linalg.inv(linalg.matmul(linalg.matmul(h_tensor[1:2], b_tensor[:, 1:2]),
-                                       linalg.adjoint(linalg.matmul(h_tensor[1:2], b_tensor[:, 1:2])) + r_2))
+                                       linalg.adjoint(linalg.matmul(h_tensor[1:2], b_tensor[:, 1:2]))) + r_2)
 
         d_tilda_1 = linalg.matmul(a_1, (
-                linalg.matmul(linalg.matmul(h_tensor[0:1], b_tensor[:, 0:1]), d_tensor[0:1]) + 0*noise_complex[0:1]))
+                linalg.matmul(linalg.matmul(h_tensor[0:1], b_tensor[:, 0:1]), d_tensor[0:1]) + 0 * noise_complex[0:1]))
         d_tilda_2 = linalg.matmul(a_2, (
-                linalg.matmul(linalg.matmul(h_tensor[1:2], b_tensor[:, 1:2]), d_tensor[1:2]) + 0*noise_complex[1:2]))
+                linalg.matmul(linalg.matmul(h_tensor[1:2], b_tensor[:, 1:2]), d_tensor[1:2]) + 0 * noise_complex[1:2]))
 
         return tf.concat([d_tilda_1, d_tilda_2], 0)

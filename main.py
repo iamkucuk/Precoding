@@ -19,16 +19,16 @@ generator = DataGenerator()
 input_tensor = Input(batch_shape=(1, 2, 2, 2))
 x_1 = complexnn.conv.ComplexConv2D(8, (3, 3), activation="relu", transposed=True)(input_tensor)
 # # x = complexnn.bn.ComplexBatchNormalization()(x)
-# # x = complexnn.conv.ComplexConv2D(16, (5, 5), activation="relu", transposed=True)(x_1)
+x = complexnn.conv.ComplexConv2D(16, (5, 5), activation="relu", transposed=True)(x_1)
 # # # x = complexnn.bn.ComplexBatchNormalization()(x)
 # # # x = complexnn.conv.ComplexConv2D(16, (4, 4), activation="relu")(x)
-# # x = complexnn.conv.ComplexConv2D(32, (7, 7), activation="relu", transposed=True)(x)
+x = complexnn.conv.ComplexConv2D(32, (7, 7), activation="relu", transposed=True)(x)
+
+x = complexnn.conv.ComplexConv2D(16, (7, 7), activation="relu")(x)
 # # # x = complexnn.bn.ComplexBatchNormalization()(x)
-# # x = complexnn.conv.ComplexConv2D(16, (7, 7), activation="relu")(x)
-# # x = complexnn.conv.ComplexConv2D(8, (5, 5), activation="relu")(x)
-# # # x = complexnn.bn.ComplexBatchNormalization()(x)
-# # x = concatenate([x_1, x])
-x = complexnn.conv.ComplexConv2D(1, (3, 3), activation="sigmoid")(x_1)
+x = complexnn.conv.ComplexConv2D(8, (5, 5), activation="relu")(x)
+x = concatenate([x_1, x])
+x = complexnn.conv.ComplexConv2D(1, (3, 3), activation="sigmoid")(x)
 
 b_tensor = Lambda(lambda x: K.squeeze(tf.complex(x[:, :, 0], x[:, :, 1]), 0))(x)
 
@@ -39,7 +39,8 @@ model = Model(inputs=[input_tensor], outputs=[output_tensor])
 
 loss_fn = rate_loss()
 
-model.compile(optimizer=optimizers.SGD(lr=1e-3, momentum=.9, nesterov=True), loss=loss_fn)
+#model.compile(optimizer=optimizers.SGD(lr=1e-2, momentum=.9, nesterov=True), loss=loss_fn)
+model.compile(optimizer="adam", loss=loss_fn)
 
 model.summary()
 time = time.strftime("%Y_%m_%d_%H_%M_%S")
