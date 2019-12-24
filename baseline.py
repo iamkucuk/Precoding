@@ -14,17 +14,19 @@ H = h_real + 1.j * h_imag
 while True:
     ##### Part I
     r_1 = 1 + np.matmul(H[1:2], b_prev[:, 1:2]) * (
-        np.matmul(H[1:2], b_prev[:, 1:2])).getH()
+        np.matmul(np.conj(H[1:2].T), np.conj(b_prev[:, 1:2]).T))
     r_2 = 1 + np.matmul(H[0:1], b_prev[:, 0:1]) * (
-        np.matmul(H[0:1], b_prev[:, 0:1])).getH()
+        np.matmul(np.conj(H[0:1].T), np.conj(b_prev[:, 0:1]).T))
 
-    a_1 = (np.matmul(H[0:1], b_prev[:, 0:1])).getH() * \
-          linalg.inv(np.matmul(np.matmul(H[0:1], b_prev[:, 0:1]),
-                               (np.matmul(H[0:1], b_prev[:, 0:1])).getH()) + r_1)
+    a_1 = (np.matmul(np.conj(H[0:1].T), np.conj(b_prev[:, 0:1]).T)) * \
+          linalg.inv(
+              np.matmul(np.matmul(np.matmul(H[0:1], b_prev[:, 0:1]), np.conj(b_prev[:, 0:1].T)), np.conj(H[:, 0:1].T))
+              + r_1)
 
-    a_2 = (np.matmul(H[1:2], b_prev[:, 1:2])).getH() * \
-          linalg.inv(np.matmul(np.matmul(H[1:2], b_prev[:, 1:2]),
-                               (np.matmul(H[1:2], b_prev[:, 1:2])).getH()) + r_2)
+    a_2 = (np.matmul(np.conj(H[1:2].T), np.conj(b_prev[:, 1:2].T)) *
+           linalg.inv(
+               np.matmul(np.matmul(np.matmul(H[1:2], b_prev[:, 1:2]), np.conj(b_prev[:, 1:2].T)), np.conj(H[:, 1:2].T))
+               + r_2)
 
     ##### Part II
 
@@ -34,5 +36,3 @@ while True:
             np.matmul(np.matmul(H[0:1], b_prev[:, 0:1]), b_prev[0:1]) + 0 * noise_complex[0:1]))
     e_2 = np.matmul(a_2, (
             np.matmul(np.matmul(H[1:2], b_prev[:, 1:2]), b_prev[1:2]) + 0 * noise_complex[1:2]))
-
-
