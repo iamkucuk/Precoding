@@ -2,7 +2,7 @@ import complexnn
 from keras import optimizers, Input
 from keras.layers import Lambda, add, concatenate
 from keras.models import Model
-from tensorflow._api.v1 import random
+# from tensorflow._api.v1 import random
 import tensorflow as tf
 from keras import backend as K
 from keras.callbacks import ModelCheckpoint, TensorBoard, ReduceLROnPlateau
@@ -52,7 +52,7 @@ kerasboard = TensorBoard(log_dir="logs/{}".format(time),
 model.fit_generator(generator=generator,
                     epochs=10,
                     callbacks=[
-                        ReduceLROnPlateau(monitor="loss", factor=.1, patience=3, mode="auto", min_delta=0.0001),
+                        # ReduceLROnPlateau(monitor="loss", factor=.1, patience=3, mode="auto", min_delta=0.0001),
                         kerasboard
                     ])
 

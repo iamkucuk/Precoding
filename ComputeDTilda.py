@@ -43,18 +43,26 @@ class ComputeDTilda(Layer):
         # h_real = random.normal(b_tensor.shape, seed=44) / K.sqrt(tf.constant(2.0))
         # h_imag = random.normal(b_tensor.shape, seed=44) / K.sqrt(tf.constant(2.0))
         # h_tensor = tf.complex(h_real, h_imag)
-        r_1 = tf.complex(1.0, 0.0) + linalg.matmul(h_tensor[1:2], b_tensor[:, 1:2]) * linalg.adjoint(
-            linalg.matmul(h_tensor[1:2], b_tensor[:, 1:2]))
-        r_2 = tf.complex(1.0, 0.0) + linalg.matmul(h_tensor[0:1], b_tensor[:, 0:1]) * linalg.adjoint(
-            linalg.matmul(h_tensor[0:1], b_tensor[:, 0:1]))
+        r_1 = tf.complex(1.0, 0.0) + linalg.matmul(linalg.matmul(linalg.matmul(h_tensor[0:1], b_tensor[:, 1:2]),
+                                                                 linalg.adjoint(b_tensor[:, 1:2])),
+                                                   linalg.adjoint(h_tensor[0:1]))
 
-        a_1 = linalg.adjoint(linalg.matmul(h_tensor[0:1], b_tensor[:, 0:1])) * \
-              linalg.inv(linalg.matmul(linalg.matmul(h_tensor[0:1], b_tensor[:, 0:1]),
-                                       linalg.adjoint(linalg.matmul(h_tensor[0:1], b_tensor[:, 0:1]))) + r_1)
+        r_2 = tf.complex(1.0, 0.0) + linalg.matmul(linalg.matmul(linalg.matmul(h_tensor[1:2], b_tensor[:, 0:1]),
+                                                                 linalg.adjoint(b_tensor[:, 0:1])),
+                                                   linalg.adjoint(h_tensor[1:2]))
 
-        a_2 = linalg.adjoint(linalg.matmul(h_tensor[1:2], b_tensor[:, 1:2])) * \
-              linalg.inv(linalg.matmul(linalg.matmul(h_tensor[1:2], b_tensor[:, 1:2]),
-                                       linalg.adjoint(linalg.matmul(h_tensor[1:2], b_tensor[:, 1:2]))) + r_2)
+        a_1 = linalg.matmul(linalg.matmul(linalg.adjoint(b_tensor[:, 0:1]), linalg.adjoint(h_tensor[0:1])),
+                            linalg.inv(linalg.matmul(linalg.matmul(linalg.matmul(linalg.matmul(h_tensor[0:1]), b_tensor[:, 0:1]),
+                                          linalg.adjoint(b_tensor[:, 0:1])),
+                                          linalg.adjoint(h_tensor[0:1])) + r_1)
+                            )
+
+        a_2 = linalg.matmul(linalg.matmul(linalg.adjoint(b_tensor[:, 1:2]), linalg.adjoint(h_tensor[1:2])),
+                            linalg.inv(linalg.matmul(
+                                linalg.matmul(linalg.matmul(linalg.matmul(h_tensor[1:2]), b_tensor[:, 1:2]),
+                                              linalg.adjoint(b_tensor[:, 1:2])),
+                                linalg.adjoint(h_tensor[1:2])) + r_2)
+                            )
 
         d_tilda_1 = linalg.matmul(a_1, (
                 linalg.matmul(linalg.matmul(h_tensor[0:1], b_tensor[:, 0:1]), d_tensor[0:1]) + 0 * noise_complex[0:1]))
