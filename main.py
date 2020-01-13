@@ -22,10 +22,10 @@ x_1 = complexnn.conv.ComplexConv2D(8, (3, 3), activation="relu", transposed=True
 x = complexnn.conv.ComplexConv2D(16, (5, 5), activation="relu", transposed=True)(x_1)
 # # # x = complexnn.bn.ComplexBatchNormalization()(x)
 # # # x = complexnn.conv.ComplexConv2D(16, (4, 4), activation="relu")(x)
-x = complexnn.conv.ComplexConv2D(32, (7, 7), activation="relu", transposed=True)(x)
-
-x = complexnn.conv.ComplexConv2D(16, (7, 7), activation="relu")(x)
-# # # x = complexnn.bn.ComplexBatchNormalization()(x)
+# x = complexnn.conv.ComplexConv2D(32, (7, 7), activation="relu", transposed=True)(x)
+#
+# x = complexnn.conv.ComplexConv2D(16, (7, 7), activation="relu")(x)
+# # # # x = complexnn.bn.ComplexBatchNormalization()(x)
 x = complexnn.conv.ComplexConv2D(8, (5, 5), activation="relu")(x)
 x = concatenate([x_1, x])
 x = complexnn.conv.ComplexConv2D(1, (3, 3), activation="sigmoid")(x)
