@@ -52,14 +52,14 @@ class ComputeDTilda(Layer):
                                                    linalg.adjoint(h_tensor[1:2]))
 
         a_1 = linalg.matmul(linalg.matmul(linalg.adjoint(b_tensor[:, 0:1]), linalg.adjoint(h_tensor[0:1])),
-                            linalg.inv(linalg.matmul(linalg.matmul(linalg.matmul(linalg.matmul(h_tensor[0:1]), b_tensor[:, 0:1]),
+                            linalg.inv(linalg.matmul(linalg.matmul(linalg.matmul(h_tensor[0:1], b_tensor[:, 0:1]),
                                           linalg.adjoint(b_tensor[:, 0:1])),
                                           linalg.adjoint(h_tensor[0:1])) + r_1)
                             )
 
         a_2 = linalg.matmul(linalg.matmul(linalg.adjoint(b_tensor[:, 1:2]), linalg.adjoint(h_tensor[1:2])),
                             linalg.inv(linalg.matmul(
-                                linalg.matmul(linalg.matmul(linalg.matmul(h_tensor[1:2]), b_tensor[:, 1:2]),
+                                linalg.matmul(linalg.matmul(h_tensor[1:2], b_tensor[:, 1:2]),
                                               linalg.adjoint(b_tensor[:, 1:2])),
                                 linalg.adjoint(h_tensor[1:2])) + r_2)
                             )
