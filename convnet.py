@@ -20,13 +20,14 @@ input_tensor = Input(batch_shape=(1, 2, 2, 2))
 x_1 = complexnn.conv.ComplexConv2D(8, (3, 3), activation="relu", transposed=True)(input_tensor)
 # # x = complexnn.bn.ComplexBatchNormalization()(x)
 x = complexnn.conv.ComplexConv2D(16, (5, 5), activation="relu", transposed=True)(x_1)
-# # # x = complexnn.bn.ComplexBatchNormalization()(x)
-# # # x = complexnn.conv.ComplexConv2D(16, (4, 4), activation="relu")(x)
+x = complexnn.bn.ComplexBatchNormalization()(x)
+# # x = complexnn.conv.ComplexConv2D(16, (4, 4), activation="relu")(x)
 # x = complexnn.conv.ComplexConv2D(32, (7, 7), activation="relu", transposed=True)(x)
 #
 # x = complexnn.conv.ComplexConv2D(16, (7, 7), activation="relu")(x)
 # # # # x = complexnn.bn.ComplexBatchNormalization()(x)
 x = complexnn.conv.ComplexConv2D(8, (5, 5), activation="relu")(x)
+x = complexnn.bn.ComplexBatchNormalization()(x)
 x = concatenate([x_1, x])
 x = complexnn.conv.ComplexConv2D(1, (3, 3), activation="sigmoid")(x)
 
@@ -47,13 +48,13 @@ time = time.strftime("%Y_%m_%d_%H_%M_%S")
 kerasboard = TensorBoard(log_dir="logs/{}".format(time),
                          write_grads=True,
                          batch_size=1,
-                         embeddings_layer_names=["Lambda"],
+                         # embeddings_layer_names=["Lambda"],
                          write_graph=True)
 model.fit_generator(generator=generator,
                     epochs=10,
                     callbacks=[
                         # ReduceLROnPlateau(monitor="loss", factor=.1, patience=3, mode="auto", min_delta=0.0001),
-                        kerasboard
+                        # kerasboard
                     ])
 
 print("tensorboard --logdir=" + kerasboard.log_dir)
