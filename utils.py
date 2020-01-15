@@ -10,7 +10,7 @@ def calc_rate_loss(d_original, d_tilda, weights=None):
 
     return math.reduce_sum(weights * linalg.diag_part(
         math.log(math.real(linalg.matmul((d_original - d_tilda), linalg.adjoint(d_original - d_tilda)))) / math.log(
-            2.0))) / 4
+            2.0))) / 256
 
 
 def rate_loss(weights=None):
