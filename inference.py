@@ -40,7 +40,7 @@ def inference_model(snr):
 
     loss_fn = rate_dummy_loss()
 
-    model.load_weights("{}db.hdf5".format(float(snr)))
+    model.load_weights("models/{}db.hdf5".format(float(snr)))
 
     model.compile(optimizer="adam", loss=loss_fn)
 

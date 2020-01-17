@@ -38,7 +38,7 @@ def calc_rate(d_original, d_tilda, weights=None):
     E_2 = linalg.matmul((d_original[1:2] - d_tilda[1:2]), linalg.adjoint(d_original[1:2] - d_tilda[1:2]))
     E_2 /= 256
 
-    R_1 = linalg.logdet(linalg.pinv(E_1)) / math.log(2)
-    R_2 = linalg.logdet(linalg.pinv(E_2)) / math.log(2)
+    R_1 = linalg.logdet(linalg.inv(E_1)) / math.log(2.0)
+    R_2 = linalg.logdet(linalg.inv(E_2)) / math.log(2.0)
 
     return R_1 + R_2
