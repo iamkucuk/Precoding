@@ -14,6 +14,7 @@ import time
 
 
 def train_for_experiment(snr: float):
+    K.clear_session()
     generator = DataGenerator()
     input_tensor = Input(batch_shape=(1, 2, 2, 2))
     x_1 = complexnn.conv.ComplexConv2D(8, (3, 3), activation="relu", transposed=True)(input_tensor)
