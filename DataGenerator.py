@@ -30,3 +30,8 @@ class DataGenerator(keras.utils.Sequence):
         DataGenerator.d_complex = target
 
         return feature, np.expand_dims(target, 0)
+
+data = DataGenerator()
+
+a = data.__getitem__(1)
+b = 0

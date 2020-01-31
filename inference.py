@@ -44,7 +44,9 @@ def inference_model(snr):
 
     model.compile(optimizer="adam", loss=loss_fn)
 
-    return model.evaluate_generator(generator, verbose=1)
+    out = model.evaluate_generator(generator)
+
+    return out
 
 rates = []
 
