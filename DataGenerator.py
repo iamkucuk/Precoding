@@ -5,7 +5,7 @@ import tensorflow as tf
 
 class DataGenerator(keras.utils.Sequence):
     # d_complex = None
-
+###
     def __init__(self, batch_size=256, dim=(2, 2)):
         self.dim = dim
         self.batch_size = batch_size
