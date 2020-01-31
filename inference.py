@@ -13,6 +13,7 @@ from utils import calc_rate, rate_loss, rate_dummy_loss
 
 
 def inference_model(snr):
+    K.clear_session()
     generator = DataGenerator()
     input_tensor = Input(batch_shape=(1, 2, 2, 2))
     x_1 = complexnn.conv.ComplexConv2D(8, (3, 3), activation="relu", transposed=True)(input_tensor)
@@ -40,11 +41,13 @@ def inference_model(snr):
 
     loss_fn = rate_dummy_loss()
 
-    model.load_weights("models/{}db.hdf5".format(float(snr)))
+    model_name = "{}db.hdf5".format(float(snr))
+
+    model.load_weights("models/-10.0db.hdf5".format(float(snr)))
 
     model.compile(optimizer="adam", loss=loss_fn)
 
-    out = model.evaluate_generator(generator)
+    out = model.evaluate_generator(generator, verbose=0)
 
     return out
 
